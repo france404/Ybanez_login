@@ -1,6 +1,7 @@
 const db = require("../Config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+<<<<<<< HEAD
 const validator = require("validator");
 const { sendWelcomeEmail } = require("../Config/email");
 
@@ -43,6 +44,23 @@ exports.register = async (req, res) => {
             res.json({
                 message: "User Registered Successfully"
             });
+=======
+
+//Register
+exports.register = async (req,res)=>{
+
+    const {name,email,password} = req.body;
+
+    const hashedPassword = await bcrypt.hash(password,10);
+
+    const sql = "INSERT INTO users (name,email,password) VALUES (?,?,?)";
+
+    db.query(sql,[name,email,hashedPassword],(err,result)=>{
+        if(err) return res.status(500).json(err);
+
+        res.json({
+            message:"User Registered Successfully"
+>>>>>>> 3af39a2ce4f406c7bfb587dae71b9aa81ec3d59f
         });
     });
 };
@@ -64,7 +82,11 @@ exports.login = (req,res)=>{
         const validPassword = await bcrypt.compare(password,user.password);
 
         if(!validPassword){
+<<<<<<< HEAD
             return res.json({message:"Invalid Username or Password"});
+=======
+            return res.json({message:"Invalid password"});
+>>>>>>> 3af39a2ce4f406c7bfb587dae71b9aa81ec3d59f
         }
 
         const token = jwt.sign(
